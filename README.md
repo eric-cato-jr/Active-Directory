@@ -22,33 +22,54 @@ This project covers:
 
 ---
 
-# ⚙️ 1. Active Directory Setup & Bulk User Creation
+# ⚙️ 1. Active Directory Domain Setup
+
+![Domain Overview](localdomain.png)
+
+This shows the Active Directory environment after setting up the domain **Eric.local**.  
+I configured Organizational Units (OUs) to represent different locations and departments, forming the foundation of the domain structure.
+
+---
+
+# 👥 2. Bulk User Creation (PowerShell)
 
 ![User Creation Script](CreateUsers.png)
 
-I configured Active Directory Domain Services and created the domain **Eric.local**.  
-To simulate a real enterprise environment, I used a PowerShell script to automate the creation of **500 users**.
+To simulate a real enterprise environment, I created a PowerShell script that automatically generates **500 users**.
 
-Each user was:
+Each user is:
 - Assigned a unique username  
-- Placed into the correct Organizational Unit (Louisville, Detroit, Chicago, Iowa)  
+- Placed into a specific Organizational Unit  
 - Added to a department-based security group (IT, HR, Sales, Engineering, Marketing, Accounting)  
 
 ---
 
 ![Users Created Successfully](userssuccessful.png)
 
-This output confirms that users were successfully created and distributed across multiple OUs and groups, replicating a real-world onboarding process.
+This output confirms that all users were successfully created and distributed across multiple OUs and groups.
 
 ---
 
-# 🌐 2. Static IP & DNS Configuration
+# 🔐 3. Group Policy Configuration
+
+![Group Policy Management](grouppolicies.png)
+
+Group Policy Objects (GPOs) were created to enforce security and system configurations across the domain.
+
+This allows centralized control of:
+- User behavior  
+- System settings  
+- Security policies  
+
+---
+
+# 🌐 4. Static IP Configuration (Domain Controller)
 
 ![Static IP Configuration](staticIP.png)
 
-I configured a **static IP address** on the domain controller to ensure consistent communication within the network.
+A static IP address was configured on the domain controller to ensure consistent communication across the network.
 
-This step is critical because:
+This is critical because:
 - Domain Controllers must not rely on DHCP  
 - DNS must consistently point to the domain controller  
 
@@ -56,67 +77,62 @@ This step is critical because:
 
 ![Static IP Verification](staticsuccess.png)
 
-This confirms the static IP was successfully applied and DHCP was disabled.
+This confirms that the static IP was successfully applied and DHCP was disabled.
 
 ---
 
-# 🔍 3. Network Connectivity & DNS Validation
+# 🔍 5. Network Connectivity Test
 
 ![Ping Domain Controller](pingdomain.png)
 
-After configuring networking, I verified connectivity by pinging the domain controller.
+After configuring networking, I verified connectivity by pinging the domain controller from the client machine.
 
 This ensured:
-- Both virtual machines were on the same network  
-- The client could reach the domain controller  
+- Both machines are on the same network  
+- Communication between systems is working  
 
 ---
 
-# 🖥️ 4. Domain Join (Client Machine)
+# 🖥️ 6. Domain Join (Client Machine)
 
 ![Domain Join Successful](domainjoin.png)
 
-After configuring DNS correctly (pointing to the domain controller), I joined the Windows 11 client machine to the **Eric.local domain**.
+After configuring DNS correctly, the Windows 11 client machine was successfully joined to the **Eric.local domain**.
 
-This step demonstrates:
-- Proper DNS dependency for Active Directory  
-- Successful communication between client and domain controller  
-
----
-
-# 🔐 5. Group Policy Configuration
-
-![Group Policy Management](grouppolicies.png)
-
-I created and configured Group Policy Objects (GPOs) to enforce security settings across the domain.
+This demonstrates:
+- Proper DNS configuration  
+- Successful domain communication  
+- Integration of client into Active Directory  
 
 ---
+
+# 🔑 7. Password Policy Enforcement
 
 ![Password Policy](passwordpolicy.png)
 
-A password policy was implemented to require users to change their password at first login.
+A Group Policy was created to enforce password requirements across the domain.
 
 ---
 
 ![Password Change Prompt](localdomain.png)
 
-When logging into the client machine, the system enforced the Group Policy by requiring a password update, confirming the policy was successfully applied.
+When attempting to log in, the system required a password change, confirming that the Group Policy was successfully applied.
 
 ---
 
-# 📂 6. File Sharing & Permissions
+# 📂 8. File Permissions Configuration
 
 ![File Permissions](fileprops.png)
 
-I created a shared folder on the server and configured NTFS permissions based on security groups.
+A shared folder was created on the server and configured with NTFS permissions based on security groups.
 
 This ensures:
-- Only authorized users can access specific resources  
-- Access is controlled using group-based permissions (RBAC)  
+- Role-based access control (RBAC)  
+- Secure access to shared resources  
 
 ---
 
-# 🔗 7. Network Drive Mapping
+# 🔗 9. Network Drive Mapping
 
 ![Mapped Drive](filemap.png)
 
@@ -124,7 +140,7 @@ The shared folder was mapped as a network drive on the client machine.
 
 This demonstrates:
 - Centralized file access  
-- Real-world enterprise file server configuration  
+- Real-world enterprise file server setup  
 
 ---
 
@@ -132,22 +148,20 @@ This demonstrates:
 
 - Active Directory administration  
 - PowerShell automation  
-- Network configuration (IP, DNS)  
+- Network configuration (IP & DNS)  
 - Domain environment setup  
 - Group Policy management  
 - Access control and file permissions  
-- Troubleshooting connectivity and authentication issues  
+- Troubleshooting connectivity and authentication  
 
 ---
 
 # 🚀 Summary
 
-This project simulates a real-world enterprise environment by combining networking, system administration, and security concepts. It demonstrates how users, devices, and policies interact within an Active Directory domain.
+This project simulates a real-world enterprise IT environment by combining networking, system administration, and security concepts.
 
 Through this lab, I gained hands-on experience in:
 - Managing domain infrastructure  
 - Automating administrative tasks  
 - Enforcing security policies  
 - Configuring enterprise network services  
-
----

@@ -19,6 +19,7 @@ This project covers:
 - Windows Server 2022 (Domain Controller)  
 - Windows 11 Enterprise (Client Machine)  
 - PowerShell  
+- Active Directory Users and Computers (ADUC)  
 
 ---
 
@@ -26,8 +27,13 @@ This project covers:
 
 ![Domain Overview](localdomain.png)
 
-This shows the Active Directory environment after setting up the domain **Eric.local**.  
-I configured Organizational Units (OUs) to represent different locations and departments, forming the foundation of the domain structure.
+This screenshot shows the initial Active Directory structure after configuring the domain **Eric.local**.  
+I organized the environment using Organizational Units (OUs) to represent different locations such as Louisville, Detroit, Chicago, and Iowa.
+
+This structure is important because:
+- It allows scalable user and computer management  
+- Policies can be applied at different levels (OU-based targeting)  
+- It reflects how enterprise environments logically separate resources  
 
 ---
 
@@ -35,12 +41,14 @@ I configured Organizational Units (OUs) to represent different locations and dep
 
 ![User Creation Script](CreateUsers.png)
 
-To simulate a real enterprise environment, I created a PowerShell script that automatically generates **500 users**.
+To simulate a real enterprise onboarding process, I created a PowerShell script that automatically generates **500 users**.
 
-Each user is:
-- Assigned a unique username  
-- Placed into a specific Organizational Unit  
-- Added to a department-based security group (IT, HR, Sales, Engineering, Marketing, Accounting)  
+The script performs the following:
+- Assigns each user a unique username  
+- Places users into specific OUs based on location  
+- Adds users to department-based security groups (IT, HR, Sales, Engineering, Marketing, Accounting)  
+
+This demonstrates automation skills and reduces the need for manual account creation in large environments.
 
 ---
 
@@ -48,18 +56,25 @@ Each user is:
 
 This output confirms that all users were successfully created and distributed across multiple OUs and groups.
 
+This validates:
+- Script execution success  
+- Proper OU targeting  
+- Group membership assignment  
+
 ---
 
 # 🔐 3. Group Policy Configuration
 
 ![Group Policy Management](grouppolicies.png)
 
-Group Policy Objects (GPOs) were created to enforce security and system configurations across the domain.
+Group Policy Objects (GPOs) were created to centrally manage user and system configurations across the domain.
 
-This allows centralized control of:
-- User behavior  
-- System settings  
-- Security policies  
+Through Group Policy, I was able to:
+- Enforce security policies  
+- Control system behavior  
+- Apply configurations to specific users and groups  
+
+This is a critical enterprise tool used for managing large environments efficiently.
 
 ---
 
@@ -67,17 +82,22 @@ This allows centralized control of:
 
 ![Static IP Configuration](staticIP.png)
 
-A static IP address was configured on the domain controller to ensure consistent communication across the network.
+A static IP address was configured on the domain controller to ensure consistent communication within the network.
 
 This is critical because:
-- Domain Controllers must not rely on DHCP  
-- DNS must consistently point to the domain controller  
+- Domain Controllers should not rely on DHCP  
+- Services like DNS require a stable IP address  
+- Other machines depend on this IP to locate domain services  
 
 ---
 
 ![Static IP Verification](staticsuccess.png)
 
-This confirms that the static IP was successfully applied and DHCP was disabled.
+This confirms that the static IP configuration was successfully applied and DHCP was disabled.
+
+This ensures:
+- Stability in network communication  
+- Reliable domain and DNS functionality  
 
 ---
 
@@ -85,11 +105,12 @@ This confirms that the static IP was successfully applied and DHCP was disabled.
 
 ![Ping Domain Controller](pingdomain.png)
 
-After configuring networking, I verified connectivity by pinging the domain controller from the client machine.
+After configuring networking, I tested connectivity by pinging the domain controller from the client machine.
 
-This ensured:
-- Both machines are on the same network  
-- Communication between systems is working  
+This step verifies:
+- Network communication between systems  
+- Proper IP configuration  
+- That both machines are on the same virtual network  
 
 ---
 
@@ -97,12 +118,12 @@ This ensured:
 
 ![Domain Join Successful](domainjoin.png)
 
-After configuring DNS correctly, the Windows 11 client machine was successfully joined to the **Eric.local domain**.
+After configuring DNS correctly (pointing to the domain controller), the Windows 11 client machine was successfully joined to the **Eric.local domain**.
 
 This demonstrates:
-- Proper DNS configuration  
-- Successful domain communication  
-- Integration of client into Active Directory  
+- Proper DNS dependency for Active Directory  
+- Successful authentication with the domain controller  
+- Integration of a client machine into a centralized domain environment  
 
 ---
 
@@ -112,11 +133,10 @@ This demonstrates:
 
 A Group Policy was created to enforce password requirements across the domain.
 
----
-
-![Password Change Prompt](localdomain.png)
-
-When attempting to log in, the system required a password change, confirming that the Group Policy was successfully applied.
+This policy ensures:
+- Users must follow security standards  
+- Password changes are enforced  
+- Accounts remain secure  
 
 ---
 
@@ -124,11 +144,12 @@ When attempting to log in, the system required a password change, confirming tha
 
 ![File Permissions](fileprops.png)
 
-A shared folder was created on the server and configured with NTFS permissions based on security groups.
+A shared folder was created on the server and configured using NTFS permissions based on security groups.
 
-This ensures:
-- Role-based access control (RBAC)  
-- Secure access to shared resources  
+This demonstrates:
+- Role-Based Access Control (RBAC)  
+- Secure file access based on group membership  
+- Separation of access between departments  
 
 ---
 
@@ -138,9 +159,25 @@ This ensures:
 
 The shared folder was mapped as a network drive on the client machine.
 
-This demonstrates:
-- Centralized file access  
-- Real-world enterprise file server setup  
+This allows:
+- Easy access to shared resources  
+- Centralized storage for users  
+- Real-world enterprise file server functionality  
+
+---
+
+# 🧠 Challenges & Troubleshooting
+
+During this project, I encountered an issue where the Windows Settings application inside the virtual machine would not open properly, preventing me from configuring a static IP address through the GUI.
+
+To resolve this:
+- I switched to using PowerShell instead of the graphical interface  
+- Used networking commands to manually assign a static IP and DNS settings  
+
+This approach not only resolved the issue but also reinforced the importance of:
+- Command-line troubleshooting  
+- Understanding underlying system configurations  
+- Being able to work without relying on GUI tools  
 
 ---
 
@@ -152,7 +189,7 @@ This demonstrates:
 - Domain environment setup  
 - Group Policy management  
 - Access control and file permissions  
-- Troubleshooting connectivity and authentication  
+- Troubleshooting system and network issues  
 
 ---
 
